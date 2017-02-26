@@ -1,0 +1,45 @@
+name:                iro
+version:             0.1.0.0
+-- synopsis:
+-- description:
+homepage:            https://github.com/contivero/iro#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Cristian Adrián Ontivero
+maintainer:          cristianontivero@gmail.com
+copyright:           (c) 2017 Cristian Adrián Ontivero
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+
+  exposed-modules:     ColorMaps
+  build-depends:       base >= 4.7 && < 5
+                     , vector >=0.10 && <0.12
+  default-language:    Haskell2010
+
+executable iro
+  hs-source-dirs:      .
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , vector >=0.10 && <0.12
+                     , linear
+                     , iro
+  default-language:    Haskell2010
+
+test-suite iro-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base
+                     , iro
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/contivero/iro
