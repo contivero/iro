@@ -3,53 +3,11 @@
 module ColorMaps where
 
 import Data.Vector as V
-import Data.Word
-
--- contrast ratios range from 1 (1:11), to 21 (21:1)
-contrastRatio c1 c2 = contrastRatio' (max l1 l2) (min l1 l2)
-  where l1 = luminance c1
-        l2 = luminance c2
-        contrastRatio' :: Double -- relative luminance of the lighter of the colors
-                       -> Double -- relative luminance of the darker of the colors
-                       -> Double
-        contrastRatio' lighterLum darkerLum  = (lighterLum + 0.05) / (darkerLum + 0.05)
-
-data ConformanceLevel = A | AA | AAA
-  deriving (Eq, Ord, Show)
-
-
-white = RGB 255 255 255 
-
--- A color that has the lowest contrast ratio greater than 7 with respect to
--- white, from the viridis color map.
-viridisBlue = RGB 56 89 140
-
-findClosestTo n col colormap = V.minimum . V.map f $ V.filter g colormap
-  where f x = (abs $ contrastRatio col x - n, x)
-        g x = contrastRatio white x >= 7
-
-
-
-data RGB = RGB { red :: Word8
-               , green :: Word8
-               , blue :: Word8
-               } deriving (Eq, Ord, Show)
-
--- https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
-luminance :: (Ord a, Floating a) => RGB -> a
-luminance (RGB r g b) = 0.2126 * r' + 0.7152 * g' + 0.0722 * b'
-  where r' | normalizedR <= 0.03928 = normalizedR / 12.92
-           | otherwise              = ((normalizedR + 0.055)/1.055) ** 2.4
-        g' | normalizedG <= 0.03928 = normalizedG / 12.92
-           | otherwise              = ((normalizedG + 0.055)/1.055) ** 2.4
-        b' | normalizedB <= 0.03928 = normalizedB / 12.92
-           | otherwise              = ((normalizedB + 0.055)/1.055) ** 2.4
-        normalizedR = fromIntegral r / 255
-        normalizedG = fromIntegral g / 255
-        normalizedB = fromIntegral b / 255
 
 viri = V.map (\(r,g,b) -> RGB (f r) (f g) (f b)) viridisData
   where f x = round $ x * 255
+
+-- viridis, magma, inferno, and plasma
 
 magmaData :: Vector (Double, Double, Double)
 magmaData = V.fromList
