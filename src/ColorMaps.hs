@@ -2,7 +2,9 @@
 
 module ColorMaps where
 
-import Data.Vector as V
+import qualified Data.Vector as V
+import Data.Vector (Vector)
+import Colors
 
 viri = V.map (\(r,g,b) -> RGB (f r) (f g) (f b)) viridisData
   where f x = round $ x * 255
